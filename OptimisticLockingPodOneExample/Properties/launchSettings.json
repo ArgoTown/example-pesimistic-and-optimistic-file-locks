@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "OptimisticLockingPodOneExample": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true
+    }
+  }
+}

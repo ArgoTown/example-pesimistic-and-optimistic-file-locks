@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  optimistic-locking-pod-one-example:
+    build: ./OptimisticLockingPodOneExample
+    image: optimisticlockingpodoneexample
+    container_name: optimistic-locking-pod-one-example
+    volumes:
+      - .:/etc/data
+    networks:
+      - back-tier
+
+  optimistic-locking-pod-two-example:
+    build: ./OptimisticLockingPodTwoExample
+    image: optimisticlockingpodtwoexample
+    container_name: optimistic-locking-pod-two-example
+    volumes:
+      - .:/etc/data
+    networks:
+      - back-tier
+
+  pessimistic-locking-pod-one-example:
+    build: ./PessimisticLockingPodOneExample
+    image: pessimisticlockingpodoneexample
+    container_name: pessimistic-locking-pod-one-example
+    volumes:
+      - .:/etc/data
+    networks:
+      - back-tier
+
+  pessimistic-locking-pod-two-example:
+    build: ./PessimisticLockingPodTwoExample
+    image: pessimisticlockingpodtwoexample
+    container_name: pessimistic-locking-pod-two-example
+    volumes:
+      - .:/etc/data
+    networks:
+      - back-tier
+
+networks:
+  back-tier: {}
+

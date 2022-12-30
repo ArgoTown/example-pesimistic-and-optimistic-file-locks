@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PesimisticLockingPodTwoExample", "PesimisticLockingPodTwoExample\PesimisticLockingPodTwoExample.csproj", "{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PesimisticLockingPodOneExample", "PesimisticLockingPodOneExample\PesimisticLockingPodOneExample.csproj", "{89838CD0-004B-49FA-93ED-01F33A515CAE}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedCode", "SharedCode\SharedCode.shproj", "{12234982-0234-40D8-B98E-39C6C6892325}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptimisticLockingPodOneExample", "OptimisticLockingPodOneExample\OptimisticLockingPodOneExample.csproj", "{70AC57CB-34F7-4E84-88AD-F3BAD3D148B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OptimisticLockingPodTwoExample", "OptimisticLockingPodTwoExample\OptimisticLockingPodTwoExample.csproj", "{7605263F-5DE2-47D6-ACF5-C2AED5AFA3C8}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{99527A39-14D6-4A91-AED7-F760FCE53028}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedCode\SharedCode.projitems*{12234982-0234-40d8-b98e-39c6c6892325}*SharedItemsImports = 13
+		SharedCode\SharedCode.projitems*{70ac57cb-34f7-4e84-88ad-f3bad3d148b9}*SharedItemsImports = 5
+		SharedCode\SharedCode.projitems*{7605263f-5de2-47d6-acf5-c2aed5afa3c8}*SharedItemsImports = 5
+		SharedCode\SharedCode.projitems*{7b3a89bd-fb6a-45a7-b3d5-33a14ae41a12}*SharedItemsImports = 5
+		SharedCode\SharedCode.projitems*{89838cd0-004b-49fa-93ed-01f33a515cae}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89838CD0-004B-49FA-93ED-01F33A515CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89838CD0-004B-49FA-93ED-01F33A515CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89838CD0-004B-49FA-93ED-01F33A515CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89838CD0-004B-49FA-93ED-01F33A515CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70AC57CB-34F7-4E84-88AD-F3BAD3D148B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70AC57CB-34F7-4E84-88AD-F3BAD3D148B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70AC57CB-34F7-4E84-88AD-F3BAD3D148B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70AC57CB-34F7-4E84-88AD-F3BAD3D148B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7605263F-5DE2-47D6-ACF5-C2AED5AFA3C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7605263F-5DE2-47D6-ACF5-C2AED5AFA3C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7605263F-5DE2-47D6-ACF5-C2AED5AFA3C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7605263F-5DE2-47D6-ACF5-C2AED5AFA3C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99527A39-14D6-4A91-AED7-F760FCE53028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99527A39-14D6-4A91-AED7-F760FCE53028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99527A39-14D6-4A91-AED7-F760FCE53028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99527A39-14D6-4A91-AED7-F760FCE53028}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C86AF58E-76CC-4F91-A680-A714B9B63FFE}
+	EndGlobalSection
+EndGlobal
