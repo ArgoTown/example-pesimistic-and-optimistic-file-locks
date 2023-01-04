@@ -12,7 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\BaseSimpleLockMechanismService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\OptimisticLockHostedService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Service\PesimisticLockHostedService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\PessimisticLockHostedService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Base\" />

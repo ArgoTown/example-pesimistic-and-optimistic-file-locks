@@ -2,7 +2,7 @@
 
 namespace SharedCode
 {
-    internal abstract class BaseSimpleLockMechanismService : BackgroundService, IDisposable
+    internal abstract class BaseSimpleLockMechanismService : BackgroundService
     {
         FileStream? fileStream = null;
         readonly string _lockType;
@@ -15,25 +15,26 @@ namespace SharedCode
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            EnsureDeletedLockFiles();
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
                     if (_lockType.Equals(Constants.AcquirePesimisticLock))
                     {
-                        // Try to aquire exclusive lock on a file, for other process this will throw error and catch section will receive it
                         fileStream = new FileStream(Constants.PesimisticLockFileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None, bufferSize: 1, FileOptions.DeleteOnClose);
                         Console.WriteLine($"File created {Constants.PesimisticLockFileName}, {Dns.GetHostName()} starts the work");
 
                         for (int iteration = 0; iteration < Constants.Iterations; iteration++)
                         {
-                            Console.WriteLine($"Pod with host name {Dns.GetHostName()} is iterating sequence {iteration} out of {Constants.Iterations} with locktype {_lockType}");
+                            // Do the work whilst acquired lock on file level
+                            Console.WriteLine($"Pod with host name {Dns.GetHostName()} is iterating sequence {iteration} out of {Constants.Iterations} with locktype {_lockType} and wait time {Constants.TaskPauseInMilliseconds}");
+                            await Task.Delay(Constants.TaskPauseInMilliseconds, stoppingToken);
                         }
 
                         fileStream.Dispose();
                         File.Delete(Constants.PesimisticLockFileName);
-
-                        // Add a delay to give ability for other pod to acquire the lock
                         await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                     }
 
@@ -41,35 +42,47 @@ namespace SharedCode
                     {
                         if (!File.Exists(Constants.OptimisticLockFileName))
                         {
-                            // Tries to create a file and continues to work
                             await File.Create(Constants.OptimisticLockFileName).DisposeAsync();
                             Console.WriteLine($"File created {Constants.OptimisticLockFileName}, {Dns.GetHostName()} starts the work");
 
                             for (int iteration = 0; iteration < Constants.Iterations; iteration++)
                             {
-                                Console.WriteLine($"Pod with host name {Dns.GetHostName()} is iterating sequence {iteration} out of {Constants.Iterations} with locktype {_lockType}");
+                                // Do the work whilst acquired lock on file level
+                                Console.WriteLine($"Pod with host name {Dns.GetHostName()} is iterating sequence {iteration} out of {Constants.Iterations} with locktype {_lockType} and wait time {Constants.TaskPauseInMilliseconds}");
+                                await Task.Delay(Constants.TaskPauseInMilliseconds, stoppingToken);
                             }
 
                             File.Delete(Constants.OptimisticLockFileName);
+                            await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                         }
                         else
                         {
-                            // Other pod sees that file exists, not throws hard error and can continue to work on other tasks
-                            Console.WriteLine($"Optimistic lock is used, so host name {Dns.GetHostName()} skips the work");
+                            Console.WriteLine($"Optimistic lock is used, so host name {Dns.GetHostName()} skips the work and waits for {Constants.PodWaitToAcquireLockInMilliseconds} ms.");
+                            await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                         }
-
-                        await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    Console.WriteLine($"Exception happened : {ex.Message}. Pod waiting for {Constants.PodWaitToAcquireLockInMilliseconds} ms. to retry acquiring the lock.");
                     await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                 }
             }
         }
 
-        public void Dispose()
+        static void EnsureDeletedLockFiles()
+        {
+            if (File.Exists(Constants.PesimisticLockFileName))
+            {
+                File.Delete(Constants.PesimisticLockFileName);
+            }
+            if (File.Exists(Constants.OptimisticLockFileName))
+            {
+                File.Delete(Constants.OptimisticLockFileName);
+            }
+        }
+
+        public override void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);

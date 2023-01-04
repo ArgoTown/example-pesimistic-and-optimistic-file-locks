@@ -2,6 +2,6 @@
 {
     internal class PessimisticLockHostedService : BaseSimpleLockMechanismService
     {
-        public PessimisticLockHostedService() : base(Constants.AcquirePesimisticLock) { }
+        public PessimisticLockHostedService() : base(Constants.AcquirePesimisticLock) {}
     }
 }

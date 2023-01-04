@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PesimisticLockingPodTwoExample", "PesimisticLockingPodTwoExample\PesimisticLockingPodTwoExample.csproj", "{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PessimisticLockingPodTwoExample", "PessimisticLockingPodTwoExample\PessimisticLockingPodTwoExample.csproj", "{7B3A89BD-FB6A-45A7-B3D5-33A14AE41A12}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PesimisticLockingPodOneExample", "PesimisticLockingPodOneExample\PesimisticLockingPodOneExample.csproj", "{89838CD0-004B-49FA-93ED-01F33A515CAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PessimisticLockingPodOneExample", "PessimisticLockingPodOneExample\PessimisticLockingPodOneExample.csproj", "{89838CD0-004B-49FA-93ED-01F33A515CAE}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedCode", "SharedCode\SharedCode.shproj", "{12234982-0234-40D8-B98E-39C6C6892325}"
 EndProject
