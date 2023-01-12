@@ -1,21 +1,11 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
-
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["OptimisticLockingPodTwoExample/OptimisticLockingPodTwoExample.csproj", "OptimisticLockingPodTwoExample/"]
-RUN dotnet restore "OptimisticLockingPodTwoExample/OptimisticLockingPodTwoExample.csproj"
 COPY . .
-WORKDIR "/src/OptimisticLockingPodTwoExample"
-RUN dotnet build "OptimisticLockingPodTwoExample.csproj" -c Release -o /app/build
+RUN dotnet restore "OptimisticLockingPodTwoExample/OptimisticLockingPodTwoExample.csproj"
 
-FROM build AS publish
-RUN dotnet publish "OptimisticLockingPodTwoExample.csproj" -c Release -o /app/publish
+RUN dotnet publish -c Release -o /app OptimisticLockingPodTwoExample/OptimisticLockingPodTwoExample.csproj
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS publish
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app ./
 ENTRYPOINT ["dotnet", "OptimisticLockingPodTwoExample.dll"]
