@@ -2,11 +2,12 @@
 {
     internal static class Constants
     {
-        public const string PesimisticLockFileName = "/etc/data/PesimisticLockFileName.lock";
-        public const string OptimisticLockFileName = "/etc/data/OptimisticLockFileName";
-        public const int Iterations = 1000;
-        public const int TaskPauseInMilliseconds = 300;
-        public const int PodWaitToAcquireLockInMilliseconds = 1000;
+        public const string Path = "/etc/data/";
+        public const string PessimisticLockFileName = Path + "PessimisticLockFileName.lock";
+        public const string OptimisticLockFileName = Path + "OptimisticLockFileName.lock";
+        public const int Iterations = 100;
+        public const int TaskPauseInMilliseconds = 25;
+        public const int PodWaitToAcquireLockInMilliseconds = 50;
         public const string AcquireOptimisticLock = nameof(AcquireOptimisticLock);
         public const string AcquirePesimisticLock = nameof(AcquirePesimisticLock);
     }

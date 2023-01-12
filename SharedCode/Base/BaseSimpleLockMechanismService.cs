@@ -7,6 +7,7 @@ namespace SharedCode
         FileStream? fileStream = null;
         readonly string _lockType;
         bool _disposed;
+        public AsyncLocal<int> Version = new();
 
         public BaseSimpleLockMechanismService(string lockType)
         {
@@ -17,14 +18,15 @@ namespace SharedCode
         {
             EnsureDeletedLockFiles();
 
-            while (!stoppingToken.IsCancellationRequested)
+            Version.Value = 0;
+            while (!stoppingToken.IsCancellationRequested && Version.Value < 200)
             {
                 try
                 {
                     if (_lockType.Equals(Constants.AcquirePesimisticLock))
                     {
-                        fileStream = new FileStream(Constants.PesimisticLockFileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None, bufferSize: 1, FileOptions.DeleteOnClose);
-                        Console.WriteLine($"File created {Constants.PesimisticLockFileName}, {Dns.GetHostName()} starts the work");
+                        fileStream = new FileStream(Constants.PessimisticLockFileName, FileMode.OpenOrCreate, FileAccess.Read, FileShare.None, bufferSize: 1, FileOptions.DeleteOnClose);
+                        Console.WriteLine($"File created {Constants.PessimisticLockFileName}, {Dns.GetHostName()} starts the work");
 
                         for (int iteration = 0; iteration < Constants.Iterations; iteration++)
                         {
@@ -34,32 +36,33 @@ namespace SharedCode
                         }
 
                         fileStream.Dispose();
-                        File.Delete(Constants.PesimisticLockFileName);
+                        File.Delete(Constants.PessimisticLockFileName);
                         await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                     }
 
                     if (_lockType.Equals(Constants.AcquireOptimisticLock))
                     {
-                        if (!File.Exists(Constants.OptimisticLockFileName))
+                        var fileNameWithVersion = $"{Constants.OptimisticLockFileName}_{Version.Value}";
+                        if (!File.Exists(fileNameWithVersion))
                         {
-                            await File.Create(Constants.OptimisticLockFileName).DisposeAsync();
-                            Console.WriteLine($"File created {Constants.OptimisticLockFileName}, {Dns.GetHostName()} starts the work");
-
+                            await File.Create(fileNameWithVersion).DisposeAsync();
                             for (int iteration = 0; iteration < Constants.Iterations; iteration++)
                             {
                                 // Do the work whilst acquired lock on file level
+                                Console.WriteLine($"Optimistic lock acquired for file: {fileNameWithVersion}");
                                 Console.WriteLine($"Pod with host name {Dns.GetHostName()} is iterating sequence {iteration} out of {Constants.Iterations} with locktype {_lockType} and wait time {Constants.TaskPauseInMilliseconds}");
                                 await Task.Delay(Constants.TaskPauseInMilliseconds, stoppingToken);
                             }
 
-                            File.Delete(Constants.OptimisticLockFileName);
-                            await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
+                            File.Delete(fileNameWithVersion);
                         }
                         else
                         {
                             Console.WriteLine($"Optimistic lock is used, so host name {Dns.GetHostName()} skips the work and waits for {Constants.PodWaitToAcquireLockInMilliseconds} ms.");
                             await Task.Delay(Constants.PodWaitToAcquireLockInMilliseconds, stoppingToken);
                         }
+
+                        Version.Value++;
                     }
                 }
                 catch (Exception ex)
@@ -72,13 +75,18 @@ namespace SharedCode
 
         static void EnsureDeletedLockFiles()
         {
-            if (File.Exists(Constants.PesimisticLockFileName))
+            if (File.Exists(Constants.PessimisticLockFileName))
             {
-                File.Delete(Constants.PesimisticLockFileName);
+                File.Delete(Constants.PessimisticLockFileName);
             }
-            if (File.Exists(Constants.OptimisticLockFileName))
+
+            var optimisticLockFiles = Directory
+                .GetFiles(Constants.Path)
+                .Where(file => file.StartsWith(Constants.OptimisticLockFileName + "_"));
+
+            foreach (var optimisticLockFile in optimisticLockFiles)
             {
-                File.Delete(Constants.OptimisticLockFileName);
+                File.Delete(optimisticLockFile);
             }
         }
 
@@ -99,7 +107,7 @@ namespace SharedCode
             {
                 fileStream?.Close();
                 fileStream?.Dispose();
-                File.Delete(Constants.PesimisticLockFileName);
+                File.Delete(Constants.PessimisticLockFileName);
             }
 
             if (_lockType.Equals(Constants.AcquireOptimisticLock))
