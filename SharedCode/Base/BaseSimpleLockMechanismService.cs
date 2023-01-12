@@ -80,6 +80,11 @@ namespace SharedCode
                 File.Delete(Constants.PessimisticLockFileName);
             }
 
+            EnsureDeletedOptimisticLockFile();
+        }
+
+        static void EnsureDeletedOptimisticLockFile()
+        {
             var optimisticLockFiles = Directory
                 .GetFiles(Constants.Path)
                 .Where(file => file.StartsWith(Constants.OptimisticLockFileName + "_"));
@@ -112,7 +117,7 @@ namespace SharedCode
 
             if (_lockType.Equals(Constants.AcquireOptimisticLock))
             {
-                File.Delete(Constants.OptimisticLockFileName);
+                EnsureDeletedOptimisticLockFile();
             }
 
             _disposed = true;
