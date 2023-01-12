@@ -11,11 +11,22 @@
 # Launch with docker compose
 
 ```
+docker-compose up --build
 ```
 
- # Pessimistic locking
+# Result examples
 
- ## Description
+## Console output
+<img src="console_log.png" alt="Console log example"
+     title="Console log example" />
+
+## File system locks examples
+<img src="files_lock_examples.png" alt="Locks examples"
+     title="Locks examples" />
+
+# Pessimistic locking
+
+## Description
 
  It is a mechanism when only one thread, pod, service aquires an exclusive lock on a shared resource (in this example shared resource is a file). 
  Who takes the lock it becomes a leader to continue with a process to do some actions.
@@ -25,23 +36,23 @@
  Other processes who trying to acquire a lock on a resource ideally should get an information exception or error to act on. 
  When the process is finished lock is released (e.g. file can be deleted and etc.).
 
- ## Others examples to achieve pessimistic locking ?
+## Others examples to achieve pessimistic locking ?
 
  For example in SQL database you can achieve an exclusive lock with *`sp_getapplock`* 
  and release the lock with *`sp_releaseapplock`*. 
 
  More to read - [MSDN Docs](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sp-getapplock-transact-sql?view=sql-server-ver16)
 
- # Optimistic locking
+# Optimistic locking
 
- ## Description
+## Description
 
  It is a mechanism when exclusive locks is not acquired, but processes still can continue to run and do other work.
  In this scenario usually no hard error should occur. 
  In code this scenario is achieved by checking if a file already exists, if not file is created.
  As mentioned in pessimistic locking file is unique, but upon an existance of a file check error is not thrown. Optimistic locks can be achieved by file versioning too.
   
- ## Others examples to achieve optimistic locking ?
+## Others examples to achieve optimistic locking ?
 
  Other of the ways you can track a record in a database  with a version of it. Meaning you can have a Primary Key concept on two fields `Id` and `Version`.
  Multiple processes can take a record, do some logic and increment a version by 1. 
