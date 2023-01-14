@@ -4,7 +4,7 @@ services:
   optimistic-locking-pod-one-example:
     build:
       context: .
-      dockerfile: OptimisticLockingPodOneExample/Dockerfile
+      dockerfile: src/OptimisticLockingPodOneExample/Dockerfile
     container_name: optimistic-locking-pod-one-example
     volumes:
       - .:/etc/data
@@ -14,7 +14,7 @@ services:
   optimistic-locking-pod-two-example:
     build:
       context: .
-      dockerfile: OptimisticLockingPodTwoExample/Dockerfile
+      dockerfile: src/OptimisticLockingPodTwoExample/Dockerfile
     container_name: optimistic-locking-pod-two-example
     volumes:
       - .:/etc/data
@@ -24,7 +24,7 @@ services:
   pessimistic-locking-pod-one-example:
     build:
       context: .
-      dockerfile: PessimisticLockingPodOneExample/Dockerfile
+      dockerfile: src/PessimisticLockingPodOneExample/Dockerfile
     container_name: pessimistic-locking-pod-one-example
     volumes:
       - .:/etc/data
@@ -34,7 +34,7 @@ services:
   pessimistic-locking-pod-two-example:
     build:
       context: .
-      dockerfile: PessimisticLockingPodTwoExample/Dockerfile
+      dockerfile: src/PessimisticLockingPodTwoExample/Dockerfile
     container_name: pessimistic-locking-pod-two-example
     volumes:
       - .:/etc/data
