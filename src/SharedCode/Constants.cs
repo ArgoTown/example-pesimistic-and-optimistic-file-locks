@@ -8,7 +8,5 @@
         public const int Iterations = 100;
         public const int TaskPauseInMilliseconds = 25;
         public const int PodWaitToAcquireLockInMilliseconds = 50;
-        public const string AcquireOptimisticLock = nameof(AcquireOptimisticLock);
-        public const string AcquirePesimisticLock = nameof(AcquirePesimisticLock);
     }
 }
