@@ -6,7 +6,7 @@
  # Requirements to launch solution
 
  1. You need docker desktop for Windows. [Download here](https://www.docker.com/products/docker-desktop/)
- 2. .NET Core 6 LTS [Download here](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+ 2. .NET Core 8 LTS [Download here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 # Launch with docker compose
 
