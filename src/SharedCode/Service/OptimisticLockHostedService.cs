@@ -4,8 +4,6 @@ namespace SharedCode.Service
 {
     internal class OptimisticLockHostedService : BackgroundService
     {
-        FileStream? fileStream = null;
-        readonly string _lockType;
         bool _disposed;
         int _version;
 
@@ -14,7 +12,7 @@ namespace SharedCode.Service
             EnsureDeletedOptimisticLockFile();
 
             _version = 0;
-            while (!stoppingToken.IsCancellationRequested && _version < 200)
+            while (!stoppingToken.IsCancellationRequested && _version < Constants.Iterations)
             {
                 try
                 {
